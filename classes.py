@@ -58,14 +58,32 @@ class Scrape:
         )
         search.send_keys(info) # insert info.
         search.send_keys(Keys.ENTER) # ENTER to set the info in search bar.
-    
-    def get_elements(self, webdriver, path: str, how: By = By.XPATH, timeout: int = 3):
 
+    def get_element(self, path: str, how: By = By.XPATH, timeout: int = 3):
+        """""""""
+        Return the element in the path.
+        * path: class name, tag name or XPATH;
+        * how: set how locate the element in page (CLASS_NAME, TAG_NAME, CSS_SELECTOR or XPATH),
+        default = By.XPATH;
+        * timeout = set the time (seconds) until execute the method, default= 3.
+        """""""""
         element = WebDriverWait(self.webdriver, timeout).until(
             EC.presence_of_element_located((how, path))
         )
-        
-        return element.find_elements(how, path)
+        return element.find_element(how, path)
+    
+    def get_elements(self, path: str, how: By = By.XPATH, timeout: int = 3):
+        """""""""
+        Returns an array with all elements in the path.
+        * path: class name, tag name or XPATH;
+        * how: set how locate the element in page (CLASS_NAME, TAG_NAME, CSS_SELECTOR or XPATH),
+        default = By.XPATH;
+        * timeout = set the time (seconds) until execute the method, default= 3.
+        """""""""
+        elements = WebDriverWait(self.webdriver, timeout).until(
+            EC.presence_of_element_located((how, path))
+        )
+        return elements.find_elements(how, path)
 
 
 
