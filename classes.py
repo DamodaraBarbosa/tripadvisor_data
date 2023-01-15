@@ -58,6 +58,17 @@ class Scrape:
         )
         search.send_keys(info) # insert info.
         search.send_keys(Keys.ENTER) # ENTER to set the info in search bar.
+    
+    def get_elements(self, webdriver, path: str, how: By = By.XPATH, timeout: int = 3):
+
+        element = WebDriverWait(self.webdriver, timeout).until(
+            EC.presence_of_element_located((how, path))
+        )
+        
+        return element.find_elements(how, path)
+
+
+
 
 
 
