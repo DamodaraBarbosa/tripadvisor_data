@@ -94,15 +94,11 @@ class Scrape:
         * close: close the current tab and returns to the previous tab, defalt = True
         """""""""
         self.webdriver.switch_to.window(self.webdriver.window_handles[tab])
-
-        # if close == True:
-        #     self.webdriver.close() # close the current tab.
-        #     self.webdriver.switch_to.window(self.webdriver.window_handles[tab-1]) # returns to the previous tab.
-        # else:
-        #     pass
     
     def info_iterator(self, infos: list):
         """""""""
+        Iterates the selenium webdriver objects to get the data.
+        * infos: list with selenium webdriver objects.
         """""""""
         infos_list = list()
         
@@ -116,9 +112,7 @@ class Scrape:
             print(exceptions)
             pass
 
-    def get_data(self, info, timeout: int = 1):
-        sleep(timeout)
-        return info.text
+
     
 
 
