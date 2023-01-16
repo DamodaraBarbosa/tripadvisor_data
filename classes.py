@@ -105,22 +105,20 @@ class Scrape:
         """""""""
         """""""""
         infos_list = list()
-
+        
         try:
             for info in infos:
                 info = info.text
                 infos_list.append(info)
-        except TimeoutException:
+        
+            return infos_list
+        except TimeoutException as exceptions:
+            print(exceptions)
             pass
 
-        return infos_list
-
-    # def get_data(self, info: str, timeout: int = 3):
-    #     # data = WebDriverWait(self.webdriver, timeout).until(
-    #     #     EC.presence_of_element_located((how, path))
-    #     # )
-    #     sleep(timeout)
-    #     return info.text
+    def get_data(self, info, timeout: int = 1):
+        sleep(timeout)
+        return info.text
     
 
 

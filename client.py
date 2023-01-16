@@ -1,6 +1,7 @@
 from time import sleep
 from classes import Webdriver, Scrape
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 url = 'https://www.tripadvisor.com.br/'
 
@@ -18,7 +19,7 @@ scrape.click(
 
 # insert the info to be searched in the search bar:
 scrape.insert_info(
-    info= 'Fortaleza', 
+    info= 'Fortaleza, Ceará', 
     path= '//div[@class="slvrn Z0 Wh EcFTp"]//input[@class= "qjfqs _G B- z _J Cj R0"]',
 )
 
@@ -50,10 +51,16 @@ for hotel in hotels:
 
     sleep(4)
 
-    prices = scrape.get_elements(path= '//div[@class= "WXMFC b"]', timeout= 10)
-    
-    prices_list = scrape.info_iterator(prices)
-    data['prices'] = prices_list
+    name = scrape.get_element(path= '//h1[@class= "QdLfr b d Pn"]', timeout= 5).text
+    data['hotel_name'] = name
+
+    try:
+        prices = scrape.get_elements(path= '//div[@class= "WXMFC b"]', timeout= 10)
+        prices_list = scrape.info_iterator(prices)
+        data['prices'] = prices_list
+    except TimeoutException as exceptions:
+        data['prices'] = None
+        pass
     
     browser.close()
     scrape.switch_tab(tab= 0)
