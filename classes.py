@@ -1,9 +1,11 @@
+from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 class Webdriver:
     def __init__(self, url: str) -> None:
@@ -84,8 +86,42 @@ class Scrape:
             EC.presence_of_element_located((how, path))
         )
         return elements.find_elements(how, path)
+    
+    def switch_tab(self, tab: int):
+        """""""""
+        Switch tabs openened in the browser.
+        * tab: selects the tab to which it should be switched.
+        * close: close the current tab and returns to the previous tab, defalt = True
+        """""""""
+        self.webdriver.switch_to.window(self.webdriver.window_handles[tab])
 
+        # if close == True:
+        #     self.webdriver.close() # close the current tab.
+        #     self.webdriver.switch_to.window(self.webdriver.window_handles[tab-1]) # returns to the previous tab.
+        # else:
+        #     pass
+    
+    def info_iterator(self, infos: list):
+        """""""""
+        """""""""
+        infos_list = list()
 
+        try:
+            for info in infos:
+                info = info.text
+                infos_list.append(info)
+        except TimeoutException:
+            pass
+
+        return infos_list
+
+    # def get_data(self, info: str, timeout: int = 3):
+    #     # data = WebDriverWait(self.webdriver, timeout).until(
+    #     #     EC.presence_of_element_located((how, path))
+    #     # )
+    #     sleep(timeout)
+    #     return info.text
+    
 
 
 
